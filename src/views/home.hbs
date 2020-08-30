@@ -1,0 +1,15 @@
+<div class="jumbotron">
+  <h1 class="display-4">Book My Show</h1>
+  <p class="lead">
+    Select the page you want to visit
+  </p>
+  <hr class="my-4" />
+  <p class="lead">
+    {{#if isAdmin}}
+    <a href="/logout">Logout</a>
+    {{else}}
+    <a href="/login" class="btn btn-primary btn-lg">Login</a>
+    {{/if}}
+    
+  </p>
+</div>

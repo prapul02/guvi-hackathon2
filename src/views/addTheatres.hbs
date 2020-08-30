@@ -1,0 +1,69 @@
+<div class="container">
+  <h1>theatre form</h1>
+  <form id="theatre-form" action="{{action}}" method="{{method}}" _method="{{method}}">
+    <input type="hidden" name="theatreId" value="1" />
+    <label for="tname">Theatre name:</label>
+    <input type="text" id="tname" name="theatreName" value="{{theatre.theatreName}}" placeholder="Name" required />
+    <br />
+    <label for="tseats">Theatre Seats:</label>
+    <input type="text" id="tseats" name="theatreSeats" value="{{theatre.theatreSeats}}" placeholder="Seats" required />
+    <br />
+    <label for="tprice">Ticket Price:</label>
+    <input type="text" id="tprice" name="ticketPrice" value="{{theatre.ticketPrice}}" placeholder="Ticket Price in rupees" required />
+    <br />
+    <label for="tshows">Theatre Shows:</label>
+    <input type="text" id="tshows" name="theatreShows" value="{{theatre.theatreShows}}" placeholder="Theatre Shows" required />
+    <br />
+    <input class="btn btn-primary" type="submit" value="Add Theatre" />
+  </form>
+</div>
+<script>
+  const $addTheatreForm = document.querySelector("#theatre-form");
+
+  $addTheatreForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const submitUrl = $addTheatreForm.action;
+    const submitMethod = $addTheatreForm.getAttribute("_method");
+    const formData = new FormData($addTheatreForm);
+    let theatreDetail = {};
+    for (const fields of formData.entries()) {
+      const [key, value] = fields;
+      theatreDetail[key] = value;
+    }
+
+    const config = {
+      method: submitMethod.toUpperCase(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(theatreDetail)
+      console.log(body)
+    }
+
+    fetch(submitUrl, config)
+      .then(response => {
+        if (response.status === 200) {
+          return response.json()
+        } else {
+          throw (new Error(response.status))
+        }
+      })
+      .then(data => {
+        alert(data.message);
+        window.location.href = "/theatreDetails"
+      })
+      .catch(error => {
+        switch (error.message) {
+          case "400":
+            alert("Please check form values...");
+            break;
+          case "500":
+            alert("Please Try after some time...");
+            break;
+          default:
+            console.error(error);
+        }
+      })
+  });
+</script>
